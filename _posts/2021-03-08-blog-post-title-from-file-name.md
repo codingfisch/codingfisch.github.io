@@ -35,6 +35,8 @@ Trying out stuff:
 
 $latex_{baby}$
 
+Save latex, baby!
+
 ![affine_fish](https://upload.wikimedia.org/wikipedia/commons/f/fe/Cpd_fish_affine.gif)
 
 Unfortunately, there does not exist a formular that takes two images and returns the desired transformation.
@@ -84,3 +86,7 @@ template = torch.from_numpy(template)
 ```
 
 bla bla
+
+This does not really show 
+
+
