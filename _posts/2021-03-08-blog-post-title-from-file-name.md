@@ -323,7 +323,7 @@ moved_nii = nib.Nifti1Image(moved.cpu().numpy(), static_nii.affine)
 moved_nii.to_filename('moved.nii.gz')
 {%endhighlight%}
 
-## **torchreg**: <100 lines PyTorch image registration library
+## **torchreg**: Tiny PyTorch image registration library
 
 Welcome to the advertising bit of this post!
 
