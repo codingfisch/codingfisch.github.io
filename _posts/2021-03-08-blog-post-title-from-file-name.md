@@ -63,6 +63,8 @@ download()
 download()
 
 ```
+Bla
+
 ## Application to brain images
 
 Now we have to load these .nii-files (called "nifti") and convert them into PyTorch tensors.
@@ -73,15 +75,6 @@ import numpy as np
 import nibabel as nib
 
 brain_fpath, template_fpath = '', ''
-# Load niftis
-brain_nifti = nib.load(brain_fpath)
-template_nifti = nib.load(template_fpath)
-# Get NumPy arrays out of niftis
-brain = nib.as_closest_canonical(brain_nifti).get_fdata(dtype=np.float32)
-template = nib.as_closest_canonical(template_nifti).get_fdata(dtype=np.float32)
-# Convert NumPy arrays to PyTorch tensors
-brain = torch.from_numpy(brain)
-template = torch.from_numpy(template)
 
 ```
 
