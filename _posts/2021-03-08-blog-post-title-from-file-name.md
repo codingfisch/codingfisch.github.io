@@ -108,3 +108,29 @@ import torch
 zeros  = torch.zeros(4, 4)
 zeros_gpu = zeros.cuda()  # zeros_gpu is stored in the (NVIDIA) GPU which enables fast computation
 {%endhighlight%}
+
+For our problem (affine registration) it has **two more powerful features**.
+
+1. There exist **utility functions** which allow you to apply **affine transformations to 2D and 3D images**!
+2. PyTorch offers **automatic differentiation** which is very useful since iterative optimization is much faster when a derivative can be calculated!
+
+To understand the second point we have to answer the following question: **What is a gradient?**
+
+If you can, try to remember what a derivative is (you probably had to know it during middle school math class).
+
+- The derivative of a function f(x) is its rate of change w.r.t (with respect to) x. 
+
+Let's make it more concrete and say that **x is an affine matrix** and the function **f is the distance of points** between two fish images.
+Wow, what a useful concept for our problem: Now the **derivative expresses how much the distance changes w.r.t the affine matrix**.
+Since x holds 16 elements (all values of the 4x4 affine matrix) the derivative also contains 16 elements - each simply being the derivative of the distance w.r.t. the respective matrix element.
+Bravo, this multivariable derivative is the gradient we wanted to understand!
+
+- The derivative of a function f(x_1, x_2) is its rate of change w.r.t x_1, x_2...
+
+The beauty about the **gradient** is that it **always points in the direction (here, affine matrix change) of the maximum increase of the function (here, maximum increase of distance)**.
+So, if we want to minimize the distance we just have to change the affine matrix in the opposite direction.
+This explains what "some transformation" in [1] is and how it results in a smooth reduction of the distance as shown in the GIF.
+
+## The ~10 lines
+
+Now that we know what Affine Registration is and what PyTorch offers us, lets look at the code.
