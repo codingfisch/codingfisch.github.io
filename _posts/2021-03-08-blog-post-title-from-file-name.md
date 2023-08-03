@@ -258,12 +258,14 @@ and plot them (using `.orthoview()`) to see how misaligned the brains are
 moving_nii.orthoview()
 {%endhighlight%}
 
+![moving](https://github.com/codingfisch/codingfisch.github.io/assets/55840648/754da81c-9305-48a5-8ea3-dbdcea310230)
 
 
 {%highlight python%}
 static_nii.orthoview()
 {%endhighlight%}
 
+![static](https://github.com/codingfisch/codingfisch.github.io/assets/55840648/37bf9e18-c007-4134-a1df-1bd077d58b2e)
 
 
 The `moving_nii`-brain is not as accurately aligned with the crosshairs as the `static_nii`-brain.
@@ -310,6 +312,9 @@ Did we do everything right? Let's **visualize** to check!
 {%highlight python%}
 moved.orthoview()
 {%endhighlight%}
+
+![moved](https://github.com/codingfisch/codingfisch.github.io/assets/55840648/63e96cec-c192-411c-82f5-09866902c3c9)
+
 
 Nice, it worked fine!
 
