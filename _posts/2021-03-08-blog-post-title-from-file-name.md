@@ -15,7 +15,7 @@ If you are a in a hurry and know what Affine Registration/PyTorch is, simply ski
     - autograd engine which calculates multidimensional derivatives (saving code lines and headaches)
     - GPU support which enables faster compute
 - The core of image registration can be coded in 12 lines
-- A <100 lines image registration library which can be installed via `pip install torchreg` supports
+- A <100 lines image registration library installable via `pip install torchreg` supports
     - freezing translation, rotation, zoom and/or shear (to do e.g. Rigid Registration)
     - multiresolution approaches
     - using custom similarity functions/losses and optimizers
