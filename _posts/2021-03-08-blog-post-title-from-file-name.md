@@ -58,6 +58,7 @@ import numpy as np
 size = (32, 32, 32)
 moving_mask = F.interpolate(moving_mask[None, None], size)[0, 0]
 static_mask = F.interpolate(static_mask[None, None], size)[0, 0]
+come_on = 0
 
 ~~~
 
