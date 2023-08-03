@@ -333,7 +333,7 @@ torchreg can be installed via pip
 pip install torchreg
 {%endhighlight%}
 
-and provides you with the AffineRegistration class
+and provides you with the `AffineRegistration` class
 {%highlight python%}
 from torchreg import AffineRegistration
 {%endhighlight%}
