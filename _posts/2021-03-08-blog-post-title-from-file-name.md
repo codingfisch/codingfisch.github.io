@@ -222,7 +222,7 @@ def dice_score(x1, x2):
 
 The **Dice score** is doing what the distance between the corresponding red and blue fish points was doing earlier in the post: It **measures image alignment**.
 The Dice score is **0 for non-overlapping** and **1 for perfectly overlapping image areas**.
-PyTorch always tries to minimize loss functions -> We use `-dice_score` and hope that it approaches -1 😉
+PyTorch always tries to minimize loss functions therefore we use `-dice_score` and hope that it approaches -1. 😉
 
 <p align="center">
 <img src="https://miro.medium.com/v2/resize:fit:1400/1*tSqwQ9tvLmeO9raDqg3i-w.png" width="500"/>
