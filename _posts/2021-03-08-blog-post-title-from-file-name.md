@@ -78,22 +78,23 @@ Because we can now transform each coordinate point $$\vec{p}$$ by simply multipl
 
 $$
 
-\[
 \vec{p}_{\text{moved}} = \mathbf{A} \cdot \vec{p} = 
 \begin{bmatrix}
-a & b \\
-c & d \\
+a & b & c\\
+d & e & f\\
+0 & 0 & 1\\
 \end{bmatrix}
 \begin{bmatrix}
 x \\
 y \\
+1 \\
 \end{bmatrix}
 = 
 \begin{bmatrix}
-a \cdot x + b \cdot y \\
-c \cdot x + d \cdot y \\
-\end{bmatrix}.
-\]
+a \cdot x + b \cdot y + c \\
+d \cdot x + e \cdot y + f \\
+1 \\
+\end{bmatrix}
 
 $$
 
