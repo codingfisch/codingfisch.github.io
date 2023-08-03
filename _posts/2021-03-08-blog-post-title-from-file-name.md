@@ -15,7 +15,7 @@ For the really impatient ones a **TL;DR**:
     - autograd engine which calculates multidimensional derivatives (saving code lines and headaches)
     - GPU support which enables faster compute
 - The core of image registration can be coded in 12 lines
-- The <100 lines image registration library **torchreg** supports
+- A <100 lines image registration library which can be installed via `pip install torchreg` supports
     - freezing translation, rotation, zoom and/or shear (to do e.g. Rigid Registration)
     - multiresolution approaches
     - using custom similarity functions/losses and optimizers
