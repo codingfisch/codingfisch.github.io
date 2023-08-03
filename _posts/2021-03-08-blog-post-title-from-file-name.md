@@ -29,7 +29,11 @@ Affine registration applies a combination of **translation**, **rotation**, **zo
 
 Let's apply it to two (pointcloudy) fishes to get a visual understanding.
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Cpd_fish_affine.gif" width="200"/>
+\begin{figure}
+ \includegraphics[width=300pt]{https://upload.wikimedia.org/wikipedia/commons/f/fe/Cpd_fish_affine.gif}
+\end{figure}
+
+#<img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Cpd_fish_affine.gif" width="200"/>
 
 In this example the blue fish - **moving image** - was aligned (registered) to the red fish - **static image** - such that each blue point matches the position of its corresponding red point.
 
