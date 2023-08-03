@@ -329,7 +329,7 @@ Welcome to the advertising bit of this post!
 
 You did not really think I would go through the trouble of explaining you all this stuff, just to share my excitement about short code, did ya?!
 
-I have added a few tweaks and tricks which are missing to make it a "mature" registration tool and ended up with **~100 lines** I call **torchreg**.
+I have added a few tweaks and tricks which are missing to make it a "mature" registration tool and ended up with **<100 lines** I call **torchreg**.
 
 torchreg can be installed via pip
 
@@ -348,21 +348,24 @@ which supports
 {%highlight python%}
 reg = AffineRegistration(with_zoom=False, with_shear=False)
 {%endhighlight%}
-- start optimization with **initial parameters**
-
-{%highlight python%}
-reg = AffineRegistration(zoom=torch.Tensor([1.5, 2., 1.]))
-{%endhighlight%}
 
 - using a **multiresolution approach** to save compute (per default it runs with 1/4 and then 1/2 of the original resolution for 500 + 100 iterations)
 
 {%highlight python%}
 reg = AffineRegistration(scales=(4, 2), iterations=(500, 100))
 {%endhighlight%}
+
+- start optimization with **initial parameters**
+
+{%highlight python%}
+reg = AffineRegistration(zoom=torch.Tensor([1.5, 2., 1.]))
+{%endhighlight%}
+
 - and using **custom similarity functions, optimizers and learning_rates**
 
 {%highlight python%}
-reg = AffineRegistration()
+mse = lambda m, s: ((m - s)**2).mean()
+reg = AffineRegistration(similairity_function=mse, optimizer=torch.optim.Adam, learning_rate=1e-2)
 {%endhighlight%}
 
 After initializing, you can **run the Affine Registration** with
