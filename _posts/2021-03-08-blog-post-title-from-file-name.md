@@ -108,14 +108,22 @@ To understand the second point we have to answer the following question: **What 
 
 If you can, try to remember what a derivative is (you probably had to know it during middle school math class).
 
-- The derivative of a function $$f(x)$$ is its rate of change with respect to $$x$$. 
+- The derivative $$\frac{df}{dx}$$ of a function $$f(x)$$ is its rate of change w.r.t. (with respect to) $$x$$. 
 
 Let's make it more concrete and say that $$x$$ **is an affine matrix** and the function $$f$$ **is the distance of points** between two fish images.
-Wow, what a useful concept for our problem: Now the **derivative expresses how much the distance changes with respect to the affine matrix**.
+Wow, what a useful concept for our problem: Now the **derivative expresses how much the distance changes w.r.t. the affine matrix**.
 Since $$x$$ holds 16 elements (all values of the 4x4 affine matrix) the derivative also contains 16 elements - each simply being the derivative of the distance w.r.t. the respective matrix element.
 Bravo, this multivariable derivative is the gradient we wanted to understand!
 
-- The derivative of a function f(x_1, x_2) is its rate of change w.r.t x_1, x_2...
+- The gradient $$\nabla$$ of a function $$f(x_1, x_2,...)$$ is its rate of change w.r.t $$x_1$$, $$x_2$$,...
+$$
+\nabla =
+\begin{bmatrix}
+a \cdot x + b \cdot y + c \\
+d \cdot x + e \cdot y + f \\
+1 \\
+\end{bmatrix}
+$$
 
 The beauty about the **gradient** is that it **always points in the direction (here, affine matrix change) of the maximum increase of the function (here, maximum increase of distance)**.
 So, if we want to minimize the distance we just have to change the affine matrix in the opposite direction.
@@ -209,7 +217,7 @@ static_nii = nib.load(static_fpath)
 
 {%endhighlight%}
 
-and plot them using `.orthoview` to see how misaligned the brains are
+and plot them (using `.orthoview()`) to see how misaligned the brains are
 
 {%highlight python%}
 moving_nii.orthoview()
