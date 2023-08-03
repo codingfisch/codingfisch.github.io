@@ -52,7 +52,7 @@ As you can see in the GIF, there is a smarter way which smoothly reduces the dis
 We will get there at the end of "Why PyTorch"!
 
 The **transformation can be fully described by an affine matrix** $$\mathbf{A}$$ (2D: 3x3 matrix, 3D: 4x4 matrix).
-The A matrix encodes:
+The $$\mathbf{A}$$ matrix encodes:
 - translation in its last column
 - scale (zoom) on its diagonal
 - rotation/shear on all non-diagnoal values of the first two rows/columns
@@ -93,11 +93,11 @@ Similary, the last row of the affine matrix will always be $$0$$ $$0$$ ... and o
 Nice, we now introduced all needed concepts to do affine registration in a (naive) iterative fashion!
 We could write a (slow) program that would randomly stumble towards better aligning affine transformations. 
 Using this starting point we will now march, mumbling the programmers **"Make it work, make it pretty, make it fast!"-mantra**.
-Thankfully, PyTorch works fast and is sufficiently pretty!
+Thankfully, PyTorch works fast and is sufficiently pretty such that we will reach the end of the rainbow quite quickly!
 
 ## Why PyTorch?
 Though PyTorch is primarily used for deep learning, it also can be thought of as a **faster NumPy** since:
-- It uses **NumPy semantics** (pretty)
+- It uses **NumPy semantics**
 
 {%highlight python%}
 import torch
@@ -183,7 +183,7 @@ def affine_registration(moving, static, n_iterations=200, learning_rate=1e-3):
 {%endhighlight%}
 
 For people who have used PyTorch for deep learning, the code should look very familiar.
-It looks like [code which trains a neural net](https://github.com/pytorch/examples/blob/main/mnist/main.py)!
+It looks like the core component of [code which trains a neural net](https://github.com/pytorch/examples/blob/main/mnist/main.py)!
 
 Let's run through it, line by line:
 1. The function takes a `static` (image), a `moving` (image), `n_iterations` (number of iterations) and a `learning_rate`
