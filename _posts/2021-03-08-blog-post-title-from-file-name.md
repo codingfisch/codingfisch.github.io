@@ -58,7 +58,7 @@ The A matrix encodes:
 - rotation/shear on all non-diagnoal values of the first two rows/columns
 
 <p align="center">
-<img src="https://neutrium.net/images/mathematics/affine-transformation-all.png" width="400"/>
+<img src="https://neutrium.net/images/mathematics/affine-transformation-all.png" width="600"/>
 </p>
 
 You might ask "Why encode the transformations in this weird matrix?".
@@ -182,7 +182,7 @@ def affine_registration(moving, static, n_iterations=200, learning_rate=1e-3):
     return affine.detach()
 {%endhighlight%}
 
-For people who have used PyTorch for deep learning, the `affine_registration` function should look very familiar.
+For people who have used PyTorch for deep learning, the code should look very familiar.
 It looks like [code which trains a neural net](https://github.com/pytorch/examples/blob/main/mnist/main.py)!
 
 Let's run through it, line by line:
@@ -208,7 +208,7 @@ So in 2D each "old" pixel typically ends up somewhere in a 2x2 pixel area of the
 The standard approach to deal with this is **interpolation** which is what **F.grid_sample is doing for us in the background**.
 
 <p align="center">
-<img src="https://discuss.pytorch.org/uploads/default/original/3X/1/d/1d5046f3be18f55e5145a59bde922eef0d3bf09a.jpeg" width="400"/>
+<img src="https://discuss.pytorch.org/uploads/default/original/3X/1/d/1d5046f3be18f55e5145a59bde922eef0d3bf09a.jpeg" width="700"/>
 </p>
 
 Finally, the `dice_score` needs explanation.
@@ -225,7 +225,7 @@ As shown below, the Dice score is **0 for non-overlapping** and **1 for perfectl
 PyTorch always tries to minimize loss functions -> We use `-dice_score` and hope that it approaches -1 😉
 
 <p align="center">
-<img src="https://miro.medium.com/v2/resize:fit:1400/1*tSqwQ9tvLmeO9raDqg3i-w.png" width="400"/>
+<img src="https://miro.medium.com/v2/resize:fit:1400/1*tSqwQ9tvLmeO9raDqg3i-w.png" width="500"/>
 </p>
 
 ## Application to brain images
