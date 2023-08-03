@@ -2,8 +2,24 @@
 
 Yes, you've read that correctly! 
 Affine registration can be done in 12 lines of Python using PyTorch.
-This is **good news for (neuro-)imaging people** like me and also a **fun toy problem** to understand what PyTorch is doing.
+This is surprising as PyTorch is originally build for deep learning not image registration.
+But it is **good news for (neuro-)imaging people** like me and also a **fun toy problem** to understand the power of PyTorch.
 So, if you are interested in neuroimaging and/or deep learning this post will tickle your whistle!
+
+If you are a in a hurry and know what Affine Registration/PyTorch is, simply skip directly to "The 12 lines". 
+
+For the really impatient ones a TLDR:
+
+- PyTorch is surprisingly effective for image registration due to its
+    - utility functions `F.affine_grid`, `F.affine_grid` (+ `F.interpolate`)
+    - autograd engine which calculates multidimensional derivatives (saving code lines and headaches)
+    - GPU support which enables faster compute
+- The core of image registration can be coded in 12 lines
+- The <100 lines image registration library **torchreg** supports
+    - freezing translation, rotation, zoom and/or shear (to do e.g. Rigid Registration)
+    - multiresolution approaches
+    - using custom similarity functions/losses and optimizers
+    - GPU computation
 
 ## What is Affine Registration?
 
@@ -30,7 +46,7 @@ Applied to this problem, an **iterative approach does something like this**:
 
 The most naive version of the iterative approach would always apply a random transformation and take a long time until by chance it found a transformation which meets the requirement "distance < x".
 As you can see in the GIF, there is a smarter way which smoothly reduces the distance until it meets the requirement.
-We will get there at the end of the post!
+We will get there at the end of "Why PyTorch"!
 
 The **transformation can be fully described by an affine matrix** $$\mathbf{A}$$ (2D: 3x3 matrix, 3D: 4x4 matrix).
 The A matrix encodes:
@@ -150,7 +166,7 @@ import torch.nn.functional as F
 def affine_registration(moving, static, n_iterations=200, learning_rate=1e-3):
     affine = torch.eye(4)[None, :3]
     affine = torch.nn.Parameter(affine)
-    optimizer = torch.optim.Adam([affine], learning_rate)
+    optimizer = torch.optim.SGD([affine], learning_rate)
     for i in range(n_iterations):
         optimizer.zero_grad()
         affine_grid = F.affine_grid(affine, [1, 3, *static.shape])
