@@ -50,6 +50,17 @@ Applied to this problem, an iterative approach does something like this:
 - Calculate distance between points
 - ...
 
+Now we have to load these .nii-files (called "nifti") and convert them into PyTorch tensors.
+
+```python
+import numpy as np
+
+size = (32, 32, 32)
+moving_mask = F.interpolate(moving_mask[None, None], size)[0, 0]
+static_mask = F.interpolate(static_mask[None, None], size)[0, 0]
+
+```
+
 First let's download some brain images:
 
 ```python
@@ -66,17 +77,6 @@ download()
 Bla
 
 ## Application to brain images
-
-Now we have to load these .nii-files (called "nifti") and convert them into PyTorch tensors.
-
-```python
-import numpy as np
-
-size = (32, 32, 32)
-moving_mask = F.interpolate(moving_mask[None, None], size)[0, 0]
-static_mask = F.interpolate(static_mask[None, None], size)[0, 0]
-
-```
 
 bla bla
 
