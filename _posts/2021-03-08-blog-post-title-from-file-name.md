@@ -364,7 +364,9 @@ reg = AffineRegistration(zoom=torch.Tensor([1.5, 2., 1.]))
 - and using **custom similarity functions and optimizers**
 
 {%highlight python%}
-mse = lambda m, s: ((m - s)**2).mean()
+def mse(moving, static):
+    return ((moving - static)**2).mean()
+
 reg = AffineRegistration(similairity_function=mse, optimizer=torch.optim.Adam)
 {%endhighlight%}
 
