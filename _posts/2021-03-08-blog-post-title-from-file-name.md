@@ -8,7 +8,7 @@ So, if you are interested in neuroimaging and/or deep learning this post will ti
 
 If you are a in a hurry and know what Affine Registration/PyTorch is, simply skip directly to "The 12 lines". 
 
-For the really impatient ones a TLDR:
+For the really impatient ones a **TL;DR**:
 
 - PyTorch is surprisingly effective for image registration due to its
     - utility functions `F.affine_grid`, `F.affine_grid` (+ `F.interpolate`)
@@ -29,7 +29,7 @@ Affine registration applies a combination of **translation**, **rotation**, **zo
 
 Let's apply it to two (pointcloudy) fishes to get a visual understanding.
 
-![affine_fish](https://upload.wikimedia.org/wikipedia/commons/f/fe/Cpd_fish_affine.gif)
+<img src="[drawing.jpg](https://upload.wikimedia.org/wikipedia/commons/f/fe/Cpd_fish_affine.gif)" alt="drawing" width="200"/>
 
 In this example the blue fish - **moving image** - was aligned (registered) to the red fish - **static image** - such that each blue point matches the position of its corresponding red point.
 
