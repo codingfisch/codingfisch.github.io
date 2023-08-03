@@ -401,14 +401,14 @@ Hopefully they look something like this:
 
 1. You are a **neuroimaging person**
 - I finally really understand this "Affine Registration" my toolboxes uses
-- PyTorch is some fast neural network stuff. I didn't understand that part!
-- The next time I preprocess or write a toolbox for preprocessing **I'll use torchreg**!
+- PyTorch is some neural network stuff. I didn't fully understand that part but it enables really fast image registration!
+- The next time I'll align Niftis **I'll use torchreg**!
 
 2. You are a **deep learning person**
-- I finally kinda understand what PyTorch does in the background of the training loops I always use!
-- I will copy&paste the ~10 lines and will plot/print the affine, the moved image and the gradients in the loop to get a feeling for what is happening in the background!
+- I finally kinda understand what PyTorch does in the background of the training loops I always use...
+- ...but I will play with the Colab notebook and plot/print affine, moved and gradients in the loop to get a feeling for what is happening in the background!
 - The word gradient does not scare me anymore!
-- If I ever want to apply Affine Registration **I'll use torchreg**!
+- If I ever want to apply Affine/Rigid Registration **I'll use torchreg**!
 
 3. You are a **nerd**
 - Interesting read, nice comprehensive + short code!
@@ -417,5 +417,5 @@ Hopefully they look something like this:
 4. You are a **normie**
 - What is this weird guy talking about?!
 
-One last closing remark: The code I showed you relied on accurate brainmasks. 
-If you are interested in how to get these **accurate masks**, take a look into my **next blog post** (soon)!
+One last closing remark: The code I showed you relied on brainmasks. 
+If you are interested in how to get **really accurate masks**, take a look into my **next blog post** (online soon)!
