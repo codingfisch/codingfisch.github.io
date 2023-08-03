@@ -176,3 +176,47 @@ Let's run through it, line by line:
 11. "optimizer.step()" **changes the affine matrix** in the opposite of the gradient direction to minimize the loss
 12. The optimized affine is returned (with )
 
+The code deals with (3D) images instead of points now, which is why lines 7-9 need some **extra explanation**:
+
+An image can be thought of as a grid of pixels/points. 
+Applying an affine transformation to each of these pixels - i.e. multiplying its coordinates with the affine matrix, happening in **F.affine_grid** - works just fine BUT:
+You end up with **new pixel coordinates** which are **not placed perfectly on a rectangular grid anymore**.
+So in 2D each "old" pixel typically ends up somewhere in a 2x2 pixel area of the new image.
+The standard approach to deal with this is **interpolation** which is what **F.grid_sample** is doing for us in the background.
+
+![grid_affine](https://discuss.pytorch.org/uploads/default/original/3X/1/d/1d5046f3be18f55e5145a59bde922eef0d3bf09a.jpeg)
+
+Finally, the "dice_score" needs explanation.
+
+The **Dice score** is doing what the distance between the corresponding red and blue fish points was doing in chapter 1: It ** measures how good/bad images align**.
+As shown below, the Dice score is **0 for non-overlapping** and **1 for perfectly overlapping image areas**.
+PyTorch always tries to minimize loss functions -> We use "- dice_score" and hope that it approaches -1 ;)
+
+![dice](https://miro.medium.com/v2/resize:fit:1400/1*tSqwQ9tvLmeO9raDqg3i-w.png)
+
+## Application to brain images
+
+After this theoretical fugazi you might think "Talk is cheap, just show me a demo!" so here we go.
+There is also a Colab notebook where you can rerun the demo!
+
+Let's download two brain images
+
+{%highlight python%}
+import nibabel as nib
+import urllib.request
+
+def download(url, filepath):
+    urllib.request.urlretrieve(url, filepath)
+
+
+moving_fpath, static_fpath = 'moving.nii.gz', 'static.nii.gz'
+download('https://openneuro.org/crn/datasets/ds003835/snapshots/1.0.0/files/sub-10:anat:sub-10_T1w.nii.gz', moving_fpath)
+download('https://openneuro.org/crn/datasets/ds003835/snapshots/1.0.0/files/sub-20:anat:sub-20_T1w.nii.gz', static_fpath)
+# Load niftis
+moving_nii = nib.load(moving_fpath)
+static_nii = nib.load(static_fpath)
+
+{%endhighlight%}
+
+and plot them using `.orthoview` to see how misaligned the brains are
+
