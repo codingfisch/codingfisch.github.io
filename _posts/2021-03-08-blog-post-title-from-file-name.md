@@ -355,7 +355,7 @@ reg = AffineRegistration(with_zoom=False, with_shear=False)
 reg = AffineRegistration(scales=(4, 2), iterations=(500, 100))
 {%endhighlight%}
 
-- start optimization with **initial parameters**
+- start optimization with **custom initial parameters**
 
 {%highlight python%}
 reg = AffineRegistration(zoom=torch.Tensor([1.5, 2., 1.]))
