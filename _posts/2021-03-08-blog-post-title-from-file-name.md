@@ -220,3 +220,71 @@ static_nii = nib.load(static_fpath)
 
 and plot them using `.orthoview` to see how misaligned the brains are
 
+{%highlight python%}
+moving_nii.orthoview()
+{%endhighlight%}
+
+
+
+{%highlight python%}
+static_nii.orthoview()
+{%endhighlight%}
+
+
+
+The `moving_nii`-brain is not as accurately aligned with the crosshairs as the `static_nii`-brain.
+Let's fix that by registering `moving_nii` to `static_nii`!
+
+First, we have to convert these .nii-files (called "Nifti") into PyTorch tensors.
+
+{%highlight python%}
+# Get numpy arrays out of niftis
+moving = nib.as_closest_canonical(moving_nii).get_fdata()
+static = nib.as_closest_canonical(static_nii).get_fdata()
+# Convert numpy arrays to torch tensors
+moving = torch.from_numpy(moving).float()
+static = torch.from_numpy(static).float()
+
+{%endhighlight%}
+
+And then we can apply the beautiful "affine_registration" function.
+{%highlight python%}
+# Get masks (1 if voxel is brain tissue else 0)
+moving_mask = (moving > 0).float()
+static_mask = (static > 0).float()
+# Reduce resolution to 32³
+size = (32, 32, 32)
+moving_mask = F.interpolate(moving_mask[None, None], size)[0, 0]
+static_mask = F.interpolate(static_mask[None, None], size)[0, 0]
+# Do affine registration
+optimal_affine = affine_registration(moving_mask, static_mask)
+
+{%endhighlight%}
+
+Oops, I sneaked two more operations in there:
+
+1. Using `(x > 0).float()` to create brainmasks, since the Dice score is build to deal with masks
+2. Reducing the resolution of those masks because `affine_registration` will be much faster this way
+
+Finally, we want can use the `optimal_affine` to align the `moving` tensor
+{%highlight python%}
+affine_grid = F.affine_grid(optimal_affine, [1, 3, *static.shape])
+moved = F.grid_sample(moving[None, None], affine_grid)[0, 0]
+{%endhighlight%}
+
+Did we do everything right? Let's **visualize** to check!  
+{%highlight python%}
+moved.orthoview()
+{%endhighlight%}
+
+Nice, it worked fine!
+
+Optionally, we can convert the tensor back to a Nifti which can be **saved**: 
+{%highlight python%}
+moved_nii = nib.Nifti1Image(moved.cpu().numpy(), static_nii.affine)
+moved_nii.to_filename('moved.nii.gz')
+{%endhighlight%}
+
+## torchreg: Lightweight image registration library using PyTorch
+
+Welcome to the advertising bit of this post!
