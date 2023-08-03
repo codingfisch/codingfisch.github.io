@@ -281,7 +281,7 @@ static = torch.from_numpy(static).float()
 
 {%endhighlight%}
 
-And then we can apply the beautiful "affine_registration" function.
+And then we can apply our beautiful `affine_registration` function.
 {%highlight python%}
 # Get masks (1 if voxel is brain tissue else 0)
 moving_mask = (moving > 0).float()
