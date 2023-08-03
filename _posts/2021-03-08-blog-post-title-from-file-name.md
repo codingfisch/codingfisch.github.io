@@ -33,7 +33,7 @@ ForEach ($thing in $things) {
 
 Trying out stuff:
 
-$latex_{baby}$
+$$latex_{baby}$$
 
 Save latex, baby!
 
