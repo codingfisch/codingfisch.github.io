@@ -194,8 +194,8 @@ Let's run through it, line by line:
 6. `optimizer.zero_grad()` initializes all derivatives (stored in the background) to zero
 7. `affine` is transformed into an `affine_grid`...
 8. ...which is used to apply the affine transformation to the `moving` image
-9. A `loss` value is calculated by measuring the negative Dice score (similarity metric) between `static` and `moved` image
-10. `loss.backward()` calculates the **derivative/gradient of the loss w.r.t the parameters** using the chain rule (`loss` -> `moved` -> `affine_grid` -> `affine_grid` -> `affine`)
+9. `loss` value is the negative Dice score (similarity metric) between `static` and `moved` image
+10. `loss.backward()` calculates the **derivative/gradient of the loss w.r.t the parameters** using the chain rule (`loss` -> `moved` -> `affine_grid` -> `affine`)
 11. `optimizer.step()` **changes the** `affine` in the opposite of the gradient direction (gradient **descent**) to minimize the loss
 12. The optimized `affine` parameter is converted back to a tensor `.detach()` and returned
 
