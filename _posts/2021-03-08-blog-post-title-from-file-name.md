@@ -288,3 +288,95 @@ moved_nii.to_filename('moved.nii.gz')
 ## torchreg: Lightweight image registration library using PyTorch
 
 Welcome to the advertising bit of this post!
+
+You did not really think I would go through the trouble of explaining you all this stuff, just to share my excitement about short code, did ya?!
+
+I have added a few tweaks and tricks which are missing to make it a "mature" registration tool and ended up with **~100 lines** I call **torchreg**.
+
+torchreg can be installed via pip
+
+{%highlight bash%}
+pip install torchreg
+{%endhighlight%}
+
+and provides you with the AffineRegistration class
+{%highlight python%}
+from torchreg import AffineRegistration
+{%endhighlight%}
+which supports
+
+- **choosing** which **operations** (translation, rotation, zoom, shear) to change during optimization
+
+{%highlight python%}
+reg = AffineRegistration(with_translation=True, with_rotation=True, with_zoom=True, with_shear=False)
+{%endhighlight%}
+- start optimization with **initial parameters**
+
+{%highlight python%}
+reg = AffineRegistration(zoom=torch.Tensor([1.5, 2., 1.]))
+{%endhighlight%}
+
+- using a **multiresolution approach** to save compute (per default it runs with 1/4 and then 1/2 of the original resolution for 500 + 100 iterations)
+
+{%highlight python%}
+reg = AffineRegistration(scales=(4, 2), iterations=(500, 100))
+{%endhighlight%}
+- and using **custom similarity functions, optimizers and learning_rates**
+
+{%highlight python%}
+reg = AffineRegistration()
+{%endhighlight%}
+
+After initializing, you can **run the Affine Registration** with
+{%highlight python%}
+aligned_brain_mask = reg(brain_mask[None, None], template_mask[None, None])
+{%endhighlight%}
+and it will return the registered moving image!
+
+Input has to be a torch Tensor (following the [Batch, Channel, Height, Width, Depth] convention, hence the [None, None] adding [Batch, Channel] dimensions).
+
+With 
+{%highlight python%}
+aligned_brain_mask = reg(brain_mask[None, None].cuda(), template_mask[None, None].cuda())
+{%endhighlight%}
+you can **leverage your GPU** (if you have a NVIDIA GPU) and speed up the registration.
+
+You can easily **access the affine**
+{%highlight python%}
+affine = reg.get_affine()
+{%endhighlight%}
+and the four parameters
+{%highlight python%}
+translation = reg.parameters[0]
+rotation = reg.parameters[1]
+zoom = reg.parameters[2]
+shear = reg.parameters[3]
+{%endhighlight%}
+
+Thats it with the advertising bit!
+
+## Conclusion
+
+I think your conclusions out of this blog post highly depend on your background. 
+Hopefully they look something like this: 
+
+1. You are a **neuroimaging person**
+- I finally really understand this "Affine Registration" my toolboxes uses
+- PyTorch is some fast neural network stuff. I didn't understand that part!
+- The next time I preprocess or write a toolbox for preprocessing **I'll use torchreg**!
+
+2. You are a **deep learning person**
+- I finally kinda understand what PyTorch does in the background of the training loops I always use!
+- I will copy&paste the ~10 lines and will plot/print the affine, the moved image and the gradients in the loop to get a feeling for what is happening in the background!
+- The word gradient does not scare me anymore!
+- If I ever want to apply Affine Registration **I'll use torchreg**!
+
+3. You are a **nerd**
+- Interesting read, nice comprehensive + short code!
+- **I'll give the repo a star** because this post entertained me!
+
+4. You are a **normie**
+- What is this weird guy talking about?!
+
+One last closing remark: The code I showed you relied on accurate brainmasks. 
+If you are interested in how to get these **accurate masks**, take a look into my **next blog post** (soon)!
