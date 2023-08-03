@@ -56,7 +56,7 @@ First let's download some brain images:
 import requests
 
 def download(url, filepath):
-    
+    return 0
 
 download()
 download()
