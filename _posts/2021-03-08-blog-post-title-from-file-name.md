@@ -297,7 +297,7 @@ optimal_affine = affine_registration(moving_mask, static_mask)
 
 {%endhighlight%}
 
-Oops, I sneaked two more operations in there:
+Oops, I snuck two more operations in there:
 
 1. Using `(_ > 0).float()` to create brainmasks, since the Dice score is build to deal with masks
 2. Reducing the masks resolution because `affine_registration` will be much faster this way
