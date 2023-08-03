@@ -74,7 +74,7 @@ The A matrix encodes:
 ![affine_ops](https://neutrium.net/images/mathematics/affine-transformation-all.png)
 
 You might ask "Why encode the transformations in this weird matrix?".
-Because we can now transform each coordinate point $p$ by simply multiplying it with this matrix $A$.
+Because we can now transform each coordinate point $$p$$ by simply multiplying it with this matrix $$A$$. TRYOUT
 
 $$p_{moved} = A \cdot p = () \cdot $$
 
