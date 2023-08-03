@@ -134,3 +134,45 @@ This explains what "some transformation" in [1] is and how it results in a smoot
 ## The ~10 lines
 
 Now that we know what Affine Registration is and what PyTorch offers us, lets look at the code.
+
+{%highlight python%}
+import torch
+import torch.nn.functional as F
+
+def dice_score(x1, x2):
+    inter = torch.sum(x1 * x2, dim=[2, 3, 4])
+    union = torch.sum(x1 + x2, dim=[2, 3, 4])
+    return (2. * inter / union).mean()
+
+
+def affine_registration(moving, static, n_iterations=200, learning_rate=3e-3):
+    affine = torch.eye(4)[None, :3]
+    affine = torch.nn.Parameter(affine)
+    optimizer = torch.optim.Adam([affine], learning_rate)
+    for i in range(n_iterations):
+        optimizer.zero_grad()
+        affine_grid = F.affine_grid(affine, [1, 3, *static.shape])
+        moved = F.grid_sample(moving[None, None], affine_grid)
+        loss = - dice_score(static[None, None], moved)
+        loss.backward()
+        optimizer.step()
+    return affine.detach()
+{%endhighlight%}
+
+For people who have used PyTorch for deep learning, the `affine_registration` function should look very familiar.
+It looks like [code which trains a neural net](https://github.com/pytorch/examples/blob/main/mnist/main.py)!
+
+Let's run through it, line by line:
+1. The function takes a `static` (image), a `moving` (image), `n_iterations` (number of iterations) and a `learning_rate`
+2. `affine` (affine matrix) is initialized using `torch.eye` (4x4 matrix filled with zeros + ones on diagonal -> affine with no effect)
+3. "affine" is made a torch.parameter -> this **tensor can be optimized** by passing it to an optimizer
+4. "optimizer" is initialized using the Adam optimizer (commonly used for neural nets) with the given "learning_rate"
+5. Starting a for-loop which will repeat/iterate lines 6-11 for n_iterations (1000) times
+6. "optimizer.zero_grad()" initializes all derivatives (stored in the background) to zero
+7. The "affine" is transformed into an "affine_grid" which is used...
+8. ...to apply the affine transformation to the "moving" image
+9. A "loss" value is calculated by measuring the negative Dice score (similarity metric) between static and moved image
+10. "loss.backward()" calculates the **derivative/gradient of the loss w.r.t its input** using the chain rule (loss -> static, moved -> affine_grid -> affine)
+11. "optimizer.step()" **changes the affine matrix** in the opposite of the gradient direction to minimize the loss
+12. The optimized affine is returned (with )
+
