@@ -1,7 +1,7 @@
-## Affine Registration in ~10 lines of code using PyTorch
+## Affine Registration in 12 lines of code
 
 Yes, you've read that correctly! 
-Affine registration can be done in ~10 lines of Python using PyTorch.
+Affine registration can be done in 12 lines of Python using PyTorch.
 This is **good news for (neuro-)imaging people** like me and also a **fun toy problem** to understand what PyTorch is doing.
 So, if you are interested in neuroimaging and/or deep learning this post will tickle your whistle!
 
@@ -41,7 +41,7 @@ The A matrix encodes:
 ![affine_ops](https://neutrium.net/images/mathematics/affine-transformation-all.png)
 
 You might ask "Why encode the transformations in this weird matrix?".
-Because we can now transform each coordinate point $$\vec{p}$$ by simply multiplying it with this matrix $$\mathbf{A}$$.
+Because we can now **transform** each coordinate point $$\vec{p}$$ **by simply multiplying it with this matrix** $$\mathbf{A}$$.
 
 $$
 
@@ -65,15 +65,18 @@ d \cdot x + e \cdot y + f \\
 
 $$
 
-Nice, we now introduced all needed concepts to do affine registration in a (naive) iterative fashion!
-We could write a (slow) program that would work. But we do not stop here. We want the program to be perfect. 
-The mantra of perfection in programming is: **Make it work, make it pretty, make it fast!**
-Therefore, we need PyTorch!
+As you can see, we needed to add an extra dimension after $$y$$ with a $$\mathrm{1}$$ to the 2D point to make it work. 
+In 3D you would have to do the same after the $$z$$. 
+Similary, the last row of the affine matrix will always be $$0$$ $$0$$ ... and one $$1$$ at the end in 2D and 3D. 
 
+Nice, we now introduced all needed concepts to do affine registration in a (naive) iterative fashion!
+We could write a (slow) program that would randomly stumble towards better aligning affine transformations. 
+Using this starting point we will now march, mumbling the programmers **"Make it work, make it pretty, make it fast!"-mantra**.
+Thankfully, PyTorch works fast and is sufficiently pretty!
 
 ## Why PyTorch?
 Though PyTorch is primarily used for deep learning, it also can be thought of as a **faster NumPy** since:
-- It uses **NumPy semantics** 
+- It uses **NumPy semantics** (pretty)
 
 {%highlight python%}
 import torch
@@ -93,7 +96,7 @@ random = torch.rand(4, 4)
 import torch
 
 zeros  = torch.zeros(4, 4)
-zeros_gpu = zeros.cuda()  # zeros_gpu is stored in the (NVIDIA) GPU which enables fast computation
+zeros_gpu = zeros.cuda()  # zeros_gpu stored in (NVIDIA) GPU
 {%endhighlight%}
 
 For our problem (affine registration) it has **two more powerful features**.
@@ -105,11 +108,11 @@ To understand the second point we have to answer the following question: **What 
 
 If you can, try to remember what a derivative is (you probably had to know it during middle school math class).
 
-- The derivative of a function f(x) is its rate of change w.r.t (with respect to) x. 
+- The derivative of a function $$f(x)$$ is its rate of change with respect to $$x$$. 
 
-Let's make it more concrete and say that **x is an affine matrix** and the function **f is the distance of points** between two fish images.
-Wow, what a useful concept for our problem: Now the **derivative expresses how much the distance changes w.r.t the affine matrix**.
-Since x holds 16 elements (all values of the 4x4 affine matrix) the derivative also contains 16 elements - each simply being the derivative of the distance w.r.t. the respective matrix element.
+Let's make it more concrete and say that $$x$$ **is an affine matrix** and the function $$f$$ **is the distance of points** between two fish images.
+Wow, what a useful concept for our problem: Now the **derivative expresses how much the distance changes with respect to the affine matrix**.
+Since $$x$$ holds 16 elements (all values of the 4x4 affine matrix) the derivative also contains 16 elements - each simply being the derivative of the distance w.r.t. the respective matrix element.
 Bravo, this multivariable derivative is the gradient we wanted to understand!
 
 - The derivative of a function f(x_1, x_2) is its rate of change w.r.t x_1, x_2...
@@ -118,7 +121,7 @@ The beauty about the **gradient** is that it **always points in the direction (h
 So, if we want to minimize the distance we just have to change the affine matrix in the opposite direction.
 This explains what "some transformation" in [1] is and how it results in a smooth reduction of the distance as shown in the GIF.
 
-## The ~10 lines
+## The 12 lines
 
 Now that we know what Affine Registration is and what PyTorch offers us, lets look at the code.
 
