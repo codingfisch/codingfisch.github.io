@@ -187,9 +187,9 @@ It looks like the core component of [code which trains a neural net](https://git
 
 Let's run through it, line by line:
 1. The function takes a `static` (image), a `moving` (image), `n_iterations` (number of iterations) and a `learning_rate`
-2. `affine` (matrix) is initialized using `torch.eye` (4x4 matrix filled with zeros + ones on diagonal -> affine with no effect)
+2. `affine` is initialized using `torch.eye` (4x4 matrix filled with zeros + ones on diagonal = identity affine)
 3. `affine` is made a `torch.nn.Parameter` which **will be optimized** if passed to an optimizer
-4. `optimizer` is initialized using the SGD (Stochastiv Gradient Descent) optimizer with the given `learning_rate`
+4. `optimizer` is initialized using the SGD (Stochastic **Gradient Descent**) optimizer with the given `learning_rate`
 5. Starting a for-loop which will repeat/iterate lines 6-11 for `n_iterations` times
 6. `optimizer.zero_grad()` initializes all derivatives (stored in the background) to zero
 7. `affine` is transformed into an `affine_grid`...
