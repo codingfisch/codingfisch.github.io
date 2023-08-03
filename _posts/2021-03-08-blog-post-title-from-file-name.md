@@ -231,7 +231,7 @@ PyTorch always tries to minimize loss functions therefore we use `-dice_score` a
 ## Application to brain images
 
 After this theoretical fugazi you might think "Talk is cheap, just show me a demo!" so here we go.
-There is also a Colab notebook where you can rerun the demo!
+Using the linked Colab notebook you can run the whole demo by simply clicking "Runtime" -> "Run all"!
 
 Let's download two brain images
 
@@ -300,7 +300,7 @@ optimal_affine = affine_registration(moving_mask, static_mask)
 Oops, I sneaked two more operations in there:
 
 1. Using `(_ > 0).float()` to create brainmasks, since the Dice score is build to deal with masks
-2. Reducing the resolution of those masks because `affine_registration` will be much faster this way
+2. Reducing the masks resolution because `affine_registration` will be much faster this way
 
 Finally, we use the `optimal_affine` to align the `moving` tensor
 {%highlight python%}
@@ -323,7 +323,7 @@ moved_nii = nib.Nifti1Image(moved.cpu().numpy(), static_nii.affine)
 moved_nii.to_filename('moved.nii.gz')
 {%endhighlight%}
 
-## torchreg: Lightweight image registration library using PyTorch
+## **torchreg**: Lightweight image registration library using PyTorch
 
 Welcome to the advertising bit of this post!
 
