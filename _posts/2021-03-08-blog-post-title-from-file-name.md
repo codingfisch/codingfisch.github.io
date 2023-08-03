@@ -119,9 +119,9 @@ Bravo, this multivariable derivative is the gradient we wanted to understand!
 $$
 \nabla =
 \begin{bmatrix}
-a \cdot x + b \cdot y + c \\
-d \cdot x + e \cdot y + f \\
-1 \\
+\frac{df}{dx_1} \\
+\frac{df}{dx_2} \\
+... \\
 \end{bmatrix}
 $$
 
