@@ -116,6 +116,7 @@ Since $$x$$ holds 16 elements (all values of the 4x4 affine matrix) the derivati
 Bravo, this multivariable derivative is the gradient we wanted to understand!
 
 - The gradient $$\nabla$$ of a function $$f(x_1, x_2,...)$$ is its rate of change w.r.t $$x_1$$, $$x_2$$,...
+
 $$
 \nabla =
 \begin{bmatrix}
