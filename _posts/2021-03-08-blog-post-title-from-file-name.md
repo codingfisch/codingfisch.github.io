@@ -2,11 +2,11 @@
 
 Yes, you've read that correctly! 
 Affine registration can be done in 12 lines of Python using PyTorch.
-This is surprising as PyTorch is originally build for deep learning not image registration.
-But it is **good news for (neuro-)imaging people** like me and also a **fun toy problem** to understand the power of PyTorch.
+That's surprising as PyTorch is originally build for deep learning not image registration.
+But it's **good news for (neuro-)imaging people** like me and also a **fun toy problem** to understand the power of PyTorch.
 So, if you are interested in neuroimaging and/or deep learning this post will tickle your whistle!
 
-If you are a in a hurry and know what Affine Registration/PyTorch is, simply skip directly to "The 12 lines" and for the really impatient ones a 
+If you are a in a hurry and know what Affine Registration/PyTorch is, simply skip to "The 12 lines" and for the really impatient ones 
 
 **TL;DR**:
 
