@@ -70,11 +70,27 @@ Bla
 Now we have to load these .nii-files (called "nifti") and convert them into PyTorch tensors.
 
 ```python
-import torch
 import numpy as np
-import nibabel as nib
 
-brain_fpath, template_fpath = '', ''
+# Get numpy arrays out of niftis
+moving = nib.as_closest_canonical(moving_nii).get_fdata()
+static = nib.as_closest_canonical(static_nii).get_fdata()
+# Convert numpy arrays to torch tensors
+moving = torch.from_numpy(moving).float()
+static = torch.from_numpy(static).float()
+
+# Get masks (1 if voxel is brain tissue else 0)
+moving_mask = (moving > 0).float()
+static_mask = (static > 0).float()
+# Reduce resolution to 32³
+size = (32, 32, 32)
+moving_mask = F.interpolate(moving_mask[None, None], size)[0, 0]
+static_mask = F.interpolate(static_mask[None, None], size)[0, 0]
+# Do affine registration
+optimal_affine = affine_registration(moving_mask, static_mask)
+# Apply found affine to brain
+affine_grid = F.affine_grid(optimal_affine, [1, 3, *static.shape])
+moved = F.grid_sample(moving[None, None], affine_grid)[0, 0]
 
 ```
 
