@@ -76,7 +76,26 @@ The A matrix encodes:
 You might ask "Why encode the transformations in this weird matrix?".
 Because we can now transform each coordinate point $$\vec{p}$$ by simply multiplying it with this matrix $$\mathbf{A}$$.
 
-$$\vec{p}_{moved} = \mathbf{A} \cdot \vec{p} = () \cdot $$
+$$
+
+\[
+\vec{p}_{\text{moved}} = \mathbf{A} \cdot \vec{p} = 
+\begin{bmatrix}
+a & b \\
+c & d \\
+\end{bmatrix}
+\begin{bmatrix}
+x \\
+y \\
+\end{bmatrix}
+= 
+\begin{bmatrix}
+a \cdot x + b \cdot y \\
+c \cdot x + d \cdot y \\
+\end{bmatrix}.
+\]
+
+$$
 
 Nice, we now introduced all needed concepts to do affine registration in a (naive) iterative fashion!
 We could write a (slow) program that would work. But we do not stop here. We want the program to be perfect. 
