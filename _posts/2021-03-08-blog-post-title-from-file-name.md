@@ -128,7 +128,16 @@ $$
 
 The beauty about the **gradient** is that it **always points in the direction (here, affine matrix change) of the maximum increase of the function (here, maximum increase of distance)**.
 So, if we want to minimize the distance we just have to change the affine matrix in the opposite direction.
-This explains what "some transformation" in [1] is and how it results in a smooth reduction of the distance as shown in the GIF.
+Following this direction during our iterative approach, will result in smooth improvement as shown in the GIF.
+
+- Apply some affine to moving image
+- Calculate distance between points
+- Calculate the gradient of the distance w.r.t affine
+- Change affine in descending gradient direction and apply to moving image
+- Calculate distance between points
+- Calculate the gradient of the distance w.r.t affine
+- Change affine in descending gradient direction and apply to moving image
+- ...
 
 ## The 12 lines
 
