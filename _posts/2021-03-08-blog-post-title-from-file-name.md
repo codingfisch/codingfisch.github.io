@@ -361,11 +361,11 @@ reg = AffineRegistration(scales=(4, 2), iterations=(500, 100))
 reg = AffineRegistration(zoom=torch.Tensor([1.5, 2., 1.]))
 {%endhighlight%}
 
-- and using **custom similarity functions, optimizers and learning_rates**
+- and using **custom similarity functions and optimizers**
 
 {%highlight python%}
 mse = lambda m, s: ((m - s)**2).mean()
-reg = AffineRegistration(similairity_function=mse, optimizer=torch.optim.Adam, learning_rate=1e-2)
+reg = AffineRegistration(similairity_function=mse, optimizer=torch.optim.Adam)
 {%endhighlight%}
 
 After initializing, you can **run the Affine Registration** with
