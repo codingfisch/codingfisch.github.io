@@ -24,7 +24,7 @@ rss: rss
 
 kramdown:
 highlighter: rouge
-    input: GFM
+#    input: GFM
 # syntax_highlighter_opts:
 #   disable: false
     
