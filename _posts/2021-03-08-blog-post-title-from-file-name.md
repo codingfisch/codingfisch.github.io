@@ -31,7 +31,7 @@ Let's apply it to two (pointcloudy) fishes to get a visual understanding.
 
 
 <p align="center">
-<img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Cpd_fish_affine.gif" width="200"/>
+<img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Cpd_fish_affine.gif" width="400"/>
 </p>
 
 In this example the blue fish - **moving image** - was aligned (registered) to the red fish - **static image** - such that each blue point matches the position of its corresponding red point.
@@ -57,7 +57,9 @@ The A matrix encodes:
 - scale (zoom) on its diagonal
 - rotation/shear on all non-diagnoal values of the first two rows/columns
 
-![affine_ops](https://neutrium.net/images/mathematics/affine-transformation-all.png)
+<p align="center">
+<img src="https://neutrium.net/images/mathematics/affine-transformation-all.png" width="400"/>
+</p>
 
 You might ask "Why encode the transformations in this weird matrix?".
 Because we can now **transform** each coordinate point $$\vec{p}$$ **by simply multiplying it with this matrix** $$\mathbf{A}$$.
@@ -205,7 +207,9 @@ You end up with **new pixel coordinates** which are **not placed perfectly on a 
 So in 2D each "old" pixel typically ends up somewhere in a 2x2 pixel area of the new image.
 The standard approach to deal with this is **interpolation** which is what **F.grid_sample is doing for us in the background**.
 
-![grid_affine](https://discuss.pytorch.org/uploads/default/original/3X/1/d/1d5046f3be18f55e5145a59bde922eef0d3bf09a.jpeg)
+<p align="center">
+<img src="https://discuss.pytorch.org/uploads/default/original/3X/1/d/1d5046f3be18f55e5145a59bde922eef0d3bf09a.jpeg" width="400"/>
+</p>
 
 Finally, the `dice_score` needs explanation.
 
@@ -220,7 +224,9 @@ The **Dice score** is doing what the distance between the corresponding red and 
 As shown below, the Dice score is **0 for non-overlapping** and **1 for perfectly overlapping image areas**.
 PyTorch always tries to minimize loss functions -> We use `-dice_score` and hope that it approaches -1 😉
 
-![dice](https://miro.medium.com/v2/resize:fit:1400/1*tSqwQ9tvLmeO9raDqg3i-w.png)
+<p align="center">
+<img src="https://miro.medium.com/v2/resize:fit:1400/1*tSqwQ9tvLmeO9raDqg3i-w.png" width="400"/>
+</p>
 
 ## Application to brain images
 
