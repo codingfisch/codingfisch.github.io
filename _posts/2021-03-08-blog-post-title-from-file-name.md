@@ -155,32 +155,32 @@ It looks like [code which trains a neural net](https://github.com/pytorch/exampl
 Let's run through it, line by line:
 1. The function takes a `static` (image), a `moving` (image), `n_iterations` (number of iterations) and a `learning_rate`
 2. `affine` (affine matrix) is initialized using `torch.eye` (4x4 matrix filled with zeros + ones on diagonal -> affine with no effect)
-3. "affine" is made a torch.parameter -> this **tensor can be optimized** by passing it to an optimizer
-4. "optimizer" is initialized using the Adam optimizer (commonly used for neural nets) with the given "learning_rate"
-5. Starting a for-loop which will repeat/iterate lines 6-11 for n_iterations (1000) times
-6. "optimizer.zero_grad()" initializes all derivatives (stored in the background) to zero
-7. The "affine" is transformed into an "affine_grid" which is used...
-8. ...to apply the affine transformation to the "moving" image
-9. A "loss" value is calculated by measuring the negative Dice score (similarity metric) between static and moved image
-10. "loss.backward()" calculates the **derivative/gradient of the loss w.r.t its input** using the chain rule (loss -> static, moved -> affine_grid -> affine)
-11. "optimizer.step()" **changes the affine matrix** in the opposite of the gradient direction to minimize the loss
-12. The optimized affine is returned (with )
+3. `affine` is made a `torch.nn.Parameter` which **will be optimized** if passed to an optimizer
+4. `optimizer` is initialized using the SGD (Stochastiv Gradient Descent) optimizer with the given `learning_rate`
+5. Starting a for-loop which will repeat/iterate lines 6-11 for `n_iterations` times
+6. `optimizer.zero_grad()` initializes all derivatives (stored in the background) to zero
+7. `affine` is transformed into an `affine_grid`...
+8. ...which is used to apply the affine transformation to the `moving` image
+9. A `loss` value is calculated by measuring the negative Dice score (similarity metric) between `static` and `moved` image
+10. `loss.backward()` calculates the **derivative/gradient of the loss w.r.t the parameters** using the chain rule (`loss` -> `moved` -> `affine_grid` -> `affine_grid` -> `affine`)
+11. `optimizer.step()` **changes the** `affine` in the opposite of the gradient direction (gradient **descent**) to minimize the loss
+12. The optimized `affine` parameter is converted back to a tensor `.detach()` and returned
 
-The code deals with (3D) images instead of points now, which is why lines 7-9 need some **extra explanation**:
+The code deals with (3D) **images instead of points** now, which is why **lines 7-9 need some extra explanation**:
 
-An image can be thought of as a grid of pixels/points. 
+An **image** can be thought of as a **grid of pixels/points**. 
 Applying an affine transformation to each of these pixels - i.e. multiplying its coordinates with the affine matrix, happening in **F.affine_grid** - works just fine BUT:
 You end up with **new pixel coordinates** which are **not placed perfectly on a rectangular grid anymore**.
 So in 2D each "old" pixel typically ends up somewhere in a 2x2 pixel area of the new image.
-The standard approach to deal with this is **interpolation** which is what **F.grid_sample** is doing for us in the background.
+The standard approach to deal with this is **interpolation** which is what **F.grid_sample is doing for us in the background**.
 
 ![grid_affine](https://discuss.pytorch.org/uploads/default/original/3X/1/d/1d5046f3be18f55e5145a59bde922eef0d3bf09a.jpeg)
 
-Finally, the "dice_score" needs explanation.
+Finally, the `dice_score` needs explanation.
 
-The **Dice score** is doing what the distance between the corresponding red and blue fish points was doing in chapter 1: It ** measures how good/bad images align**.
+The **Dice score** is doing what the distance between the corresponding red and blue fish points was doing earlier in the post: It **measures image alignment**.
 As shown below, the Dice score is **0 for non-overlapping** and **1 for perfectly overlapping image areas**.
-PyTorch always tries to minimize loss functions -> We use "- dice_score" and hope that it approaches -1 ;)
+PyTorch always tries to minimize loss functions -> We use `-dice_score` and hope that it approaches -1 😉
 
 ![dice](https://miro.medium.com/v2/resize:fit:1400/1*tSqwQ9tvLmeO9raDqg3i-w.png)
 
