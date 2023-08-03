@@ -208,7 +208,7 @@ So in 2D each "old" pixel typically ends up somewhere in a 2x2 pixel area of the
 The standard approach to deal with this is **interpolation** which is what **F.grid_sample is doing for us in the background**.
 
 <p align="center">
-<img src="https://discuss.pytorch.org/uploads/default/original/3X/1/d/1d5046f3be18f55e5145a59bde922eef0d3bf09a.jpeg" width="700"/>
+<img src="https://discuss.pytorch.org/uploads/default/original/3X/1/d/1d5046f3be18f55e5145a59bde922eef0d3bf09a.jpeg" width="600"/>
 </p>
 
 Finally, the `dice_score` needs explanation.
