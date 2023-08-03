@@ -342,7 +342,7 @@ which supports
 - **choosing** which **operations** (translation, rotation, zoom, shear) to change during optimization
 
 {%highlight python%}
-reg = AffineRegistration(with_translation=True, with_rotation=True, with_zoom=True, with_shear=False)
+reg = AffineRegistration(with_zoom=False, with_shear=False)
 {%endhighlight%}
 - start optimization with **initial parameters**
 
@@ -363,15 +363,13 @@ reg = AffineRegistration()
 
 After initializing, you can **run the Affine Registration** with
 {%highlight python%}
-aligned_brain_mask = reg(brain_mask[None, None], template_mask[None, None])
+moved_mask = reg(moving_mask, static_mask)
 {%endhighlight%}
 and it will return the registered moving image!
 
-Input has to be a torch Tensor (following the [Batch, Channel, Height, Width, Depth] convention, hence the [None, None] adding [Batch, Channel] dimensions).
-
 With 
 {%highlight python%}
-aligned_brain_mask = reg(brain_mask[None, None].cuda(), template_mask[None, None].cuda())
+moved_mask = reg(moving_mask.cuda(), static_mask.cuda())
 {%endhighlight%}
 you can **leverage your GPU** (if you have a NVIDIA GPU) and speed up the registration.
 
