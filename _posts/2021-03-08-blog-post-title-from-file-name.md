@@ -269,9 +269,9 @@ static_nii.orthoview()
 
 
 The `moving_nii`-brain is not as accurately aligned with the crosshairs as the `static_nii`-brain.
-Let's fix that by registering `moving_nii` to `static_nii`!
+We will fix that by registering `moving_nii` to `static_nii`!
 
-First, we have to convert these .nii-files (called "Nifti") into PyTorch tensors.
+Therefore, we have to firstly convert these .nii-files (called "Nifti") into PyTorch tensors.
 
 {%highlight python%}
 # Get numpy arrays out of niftis
@@ -299,10 +299,10 @@ optimal_affine = affine_registration(moving_mask, static_mask)
 
 Oops, I sneaked two more operations in there:
 
-1. Using `(x > 0).float()` to create brainmasks, since the Dice score is build to deal with masks
+1. Using `(_ > 0).float()` to create brainmasks, since the Dice score is build to deal with masks
 2. Reducing the resolution of those masks because `affine_registration` will be much faster this way
 
-Finally, we want can use the `optimal_affine` to align the `moving` tensor
+Finally, we use the `optimal_affine` to align the `moving` tensor
 {%highlight python%}
 affine_grid = F.affine_grid(optimal_affine, [1, 3, *static.shape])
 moved = F.grid_sample(moving[None, None], affine_grid)[0, 0]
@@ -314,7 +314,6 @@ moved.orthoview()
 {%endhighlight%}
 
 ![moved](https://github.com/codingfisch/codingfisch.github.io/assets/55840648/63e96cec-c192-411c-82f5-09866902c3c9)
-
 
 Nice, it worked fine!
 
