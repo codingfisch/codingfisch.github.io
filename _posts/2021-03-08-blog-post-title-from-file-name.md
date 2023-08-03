@@ -202,10 +202,10 @@ Let's run through it, line by line:
 The code deals with (3D) **images instead of points** now, which is why **lines 7-9 need some extra explanation**:
 
 An **image** can be thought of as a **grid of pixels/points**. 
-Applying an affine transformation to each of these pixels - i.e. multiplying its coordinates with the affine matrix, happening in **F.affine_grid** - works just fine BUT:
+Applying an affine transformation to each of these pixels - i.e. multiplying its coordinates with the affine matrix, happening in `F.affine_grid` - works just fine BUT:
 You end up with **new pixel coordinates** which are **not placed perfectly on a rectangular grid anymore**.
 So in 2D each "old" pixel typically ends up somewhere in a 2x2 pixel area of the new image.
-The standard approach to deal with this is **interpolation** which is what **F.grid_sample is doing for us in the background**.
+The standard approach to deal with this is **interpolation** which is what `F.grid_sample` **is doing for us in the background**.
 
 <p align="center">
 <img src="https://discuss.pytorch.org/uploads/default/original/3X/1/d/1d5046f3be18f55e5145a59bde922eef0d3bf09a.jpeg" width="600"/>
