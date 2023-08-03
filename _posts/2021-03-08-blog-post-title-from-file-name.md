@@ -129,13 +129,7 @@ Now that we know what Affine Registration is and what PyTorch offers us, lets lo
 import torch
 import torch.nn.functional as F
 
-def dice_score(x1, x2):
-    inter = torch.sum(x1 * x2, dim=[2, 3, 4])
-    union = torch.sum(x1 + x2, dim=[2, 3, 4])
-    return (2. * inter / union).mean()
-
-
-def affine_registration(moving, static, n_iterations=200, learning_rate=3e-3):
+def affine_registration(moving, static, n_iterations=200, learning_rate=1e-3):
     affine = torch.eye(4)[None, :3]
     affine = torch.nn.Parameter(affine)
     optimizer = torch.optim.Adam([affine], learning_rate)
@@ -154,7 +148,7 @@ It looks like [code which trains a neural net](https://github.com/pytorch/exampl
 
 Let's run through it, line by line:
 1. The function takes a `static` (image), a `moving` (image), `n_iterations` (number of iterations) and a `learning_rate`
-2. `affine` (affine matrix) is initialized using `torch.eye` (4x4 matrix filled with zeros + ones on diagonal -> affine with no effect)
+2. `affine` (matrix) is initialized using `torch.eye` (4x4 matrix filled with zeros + ones on diagonal -> affine with no effect)
 3. `affine` is made a `torch.nn.Parameter` which **will be optimized** if passed to an optimizer
 4. `optimizer` is initialized using the SGD (Stochastiv Gradient Descent) optimizer with the given `learning_rate`
 5. Starting a for-loop which will repeat/iterate lines 6-11 for `n_iterations` times
@@ -177,6 +171,13 @@ The standard approach to deal with this is **interpolation** which is what **F.g
 ![grid_affine](https://discuss.pytorch.org/uploads/default/original/3X/1/d/1d5046f3be18f55e5145a59bde922eef0d3bf09a.jpeg)
 
 Finally, the `dice_score` needs explanation.
+
+{%highlight python%}
+def dice_score(x1, x2):
+    inter = torch.sum(x1 * x2, dim=[2, 3, 4])
+    union = torch.sum(x1 + x2, dim=[2, 3, 4])
+    return (2. * inter / union).mean()
+{%endhighlight%}
 
 The **Dice score** is doing what the distance between the corresponding red and blue fish points was doing earlier in the post: It **measures image alignment**.
 As shown below, the Dice score is **0 for non-overlapping** and **1 for perfectly overlapping image areas**.
