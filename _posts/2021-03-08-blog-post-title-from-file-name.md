@@ -31,4 +31,60 @@ ForEach ($thing in $things) {
 }
 ```
 
+Trying out stuff:
 
+$latex_{baby}$
+
+Save latex, baby!
+
+![affine_fish](https://upload.wikimedia.org/wikipedia/commons/f/fe/Cpd_fish_affine.gif)
+
+Unfortunately, there does not exist a formular that takes two images and returns the desired transformation.
+But since we can quantify how good the two images are aligned by measuring the distances of the respective points we can solve it **iteratively - step-by-step**.
+Applied to this problem, an iterative approach does something like this:
+- Apply some transformation to moving image
+- Calculate distance between points
+- If distance > x, apply another transformation to moving image
+- Calculate distance between points 
+- If distance > x, apply another transformation to moving image
+- Calculate distance between points
+- ...
+
+First let's download some brain images:
+
+```python
+import requests
+
+def download(url, filepath):
+    
+
+download()
+download()
+download()
+
+```
+## Application to brain images
+
+Now we have to load these .nii-files (called "nifti") and convert them into PyTorch tensors.
+
+```python
+import torch
+import numpy as np
+import nibabel as nib
+
+brain_fpath, template_fpath = '', ''
+# Load niftis
+brain_nifti = nib.load(brain_fpath)
+template_nifti = nib.load(template_fpath)
+# Get NumPy arrays out of niftis
+brain = nib.as_closest_canonical(brain_nifti).get_fdata(dtype=np.float32)
+template = nib.as_closest_canonical(template_nifti).get_fdata(dtype=np.float32)
+# Convert NumPy arrays to PyTorch tensors
+brain = torch.from_numpy(brain)
+template = torch.from_numpy(template)
+
+```
+
+bla bla
+
+This does not really show 
