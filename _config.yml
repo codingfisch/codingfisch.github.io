@@ -23,7 +23,7 @@ theme: "minima"
 rss: rss
 
 kramdown:
-# highlighter: rouge
+highlighter: rouge
 # syntax_highlighter_opts:
 #   disable: false
     
