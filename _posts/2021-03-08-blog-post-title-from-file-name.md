@@ -242,10 +242,10 @@ import urllib.request
 def download(url, filepath):
     urllib.request.urlretrieve(url, filepath)
 
-
+url_stem = 'https://openneuro.org/crn/datasets/ds003835/snapshots/1.0.0/files'
 moving_fpath, static_fpath = 'moving.nii.gz', 'static.nii.gz'
-download('https://openneuro.org/crn/datasets/ds003835/snapshots/1.0.0/files/sub-10:anat:sub-10_T1w.nii.gz', moving_fpath)
-download('https://openneuro.org/crn/datasets/ds003835/snapshots/1.0.0/files/sub-20:anat:sub-20_T1w.nii.gz', static_fpath)
+download(f'{url_stem}/sub-10:anat:sub-10_T1w.nii.gz', moving_fpath)
+download(f'{url_stem}/sub-20:anat:sub-20_T1w.nii.gz', static_fpath)
 # Load niftis
 moving_nii = nib.load(moving_fpath)
 static_nii = nib.load(static_fpath)
