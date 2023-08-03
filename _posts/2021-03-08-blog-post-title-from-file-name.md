@@ -6,9 +6,9 @@ This is surprising as PyTorch is originally build for deep learning not image re
 But it is **good news for (neuro-)imaging people** like me and also a **fun toy problem** to understand the power of PyTorch.
 So, if you are interested in neuroimaging and/or deep learning this post will tickle your whistle!
 
-If you are a in a hurry and know what Affine Registration/PyTorch is, simply skip directly to "The 12 lines". 
+If you are a in a hurry and know what Affine Registration/PyTorch is, simply skip directly to "The 12 lines" and for the really impatient ones a 
 
-For the really impatient ones a **TL;DR**:
+**TL;DR**:
 
 - PyTorch is surprisingly effective for image registration due to its
     - utility functions `F.affine_grid`, `F.affine_grid` (+ `F.interpolate`)
