@@ -32,6 +32,7 @@ Let's apply it to two (pointcloudy) fishes to get a visual understanding.
 
 <p align="center">
 <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Cpd_fish_affine.gif" width="400"/>
+<figcaption>[GIF by Dllu@Wikimedia / CC BY-SA 3.0](https://commons.wikimedia.org/wiki/File:Cpd_fish_affine.gif)</figcaption>
 </p>
 
 In this example the blue fish - **moving image** - was aligned (registered) to the red fish - **static image** - such that each blue point matches the position of its corresponding red point.
