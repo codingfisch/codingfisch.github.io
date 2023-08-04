@@ -60,6 +60,7 @@ The $$\mathbf{A}$$ matrix encodes:
 
 <p align="center">
 <img src="https://neutrium.net/images/mathematics/affine-transformation-all.png" width="600"/>
+<figcaption>Taken from <a href="https://neutrium.net/mathematics/basics-of-affine-transformation/">https://neutrium.net/mathematics/basics-of-affine-transformation/</a></figcaption>
 </p>
 
 You might ask "Why encode the transformations in this weird matrix?".
@@ -210,6 +211,7 @@ The standard approach to deal with this is **interpolation** which is what `F.gr
 
 <p align="center">
 <img src="https://discuss.pytorch.org/uploads/default/original/3X/1/d/1d5046f3be18f55e5145a59bde922eef0d3bf09a.jpeg" width="600"/>
+<figcaption>Taken from <a href="https://discuss.pytorch.org/t/affine-grid-and-grid-sample-why-is-my-image-not-rotated-in-the-right-direction/115450/">https://discuss.pytorch.org/t/affine-grid-and-grid-sample-why-is-my-image-not-rotated-in-the-right-direction/115450/</a></figcaption>
 </p>
 
 Finally, the `dice_score` needs explanation.
@@ -227,6 +229,7 @@ PyTorch always tries to minimize loss functions therefore we use `-dice_score` a
 
 <p align="center">
 <img src="https://miro.medium.com/v2/resize:fit:1400/1*tSqwQ9tvLmeO9raDqg3i-w.png" width="500"/>
+<figcaption>Taken from <a href="https://medium.com/mlearning-ai/understanding-evaluation-metrics-in-medical-image-segmentation-d289a373a3f">https://medium.com/mlearning-ai/understanding-evaluation-metrics-in-medical-image-segmentation-d289a373a3f</a></figcaption>
 </p>
 
 ## Application to brain images
