@@ -178,7 +178,7 @@ def affine_registration(moving, static, n_iterations=200, learning_rate=1e-3):
         optimizer.zero_grad()
         affine_grid = F.affine_grid(affine, [1, 3, *static.shape])
         moved = F.grid_sample(moving[None, None], affine_grid)
-        loss = - dice_score(static[None, None], moved)
+        loss = ((static - moved[0, 0) ** 2).mean()
         loss.backward()
         optimizer.step()
     return affine.detach()
@@ -196,14 +196,17 @@ Let's run through it, line by line:
 6. `optimizer.zero_grad()` initializes all derivatives (stored in the background) to zero
 7. `affine` is transformed into an `affine_grid`...
 8. ...which is used to apply the affine transformation to the `moving` image
-9. `loss` value is the negative Dice score (similarity metric) between `static` and `moved` image
+9. `loss` value is the mean squared error (MSE) between `static` and `moved` image
 10. `loss.backward()` calculates the **derivative/gradient of the loss w.r.t the parameters** using the chain rule (`loss` -> `moved` -> `affine_grid` -> `affine`)
 11. `optimizer.step()` **changes the** `affine` in the opposite of the gradient direction (gradient **descent**) to minimize the loss
 12. The optimized `affine` parameter is converted back to a tensor `.detach()` and returned
 
 The code deals with (3D) **images instead of points** now, which is why **lines 7-9 need some extra explanation**:
 
-An **image** can be thought of as a **grid of pixels/points**. 
+First, the **MSE** in line 7 is doing what the distance between the corresponding red and blue fish points was doing earlier in the post: It **measures image alignment**.
+Smaller mean squared errors indicate better alignment so we hope that the loss approaches 0.
+
+Second, an **image** can be thought of as a **grid of pixels/points**. 
 Applying an affine transformation to each of these pixels - i.e. multiplying its coordinates with the affine matrix, happening in `F.affine_grid` - works just fine BUT:
 You end up with **new pixel coordinates** which are **not placed perfectly on a rectangular grid anymore**.
 So in 2D each "old" pixel typically ends up somewhere in a 2x2 pixel area of the new image.
@@ -212,24 +215,6 @@ The standard approach to deal with this is **interpolation** which is what `F.gr
 <p align="center">
 <img src="https://discuss.pytorch.org/uploads/default/original/3X/1/d/1d5046f3be18f55e5145a59bde922eef0d3bf09a.jpeg" width="600"/>
 <figcaption>Taken from <a href="https://discuss.pytorch.org/t/affine-grid-and-grid-sample-why-is-my-image-not-rotated-in-the-right-direction/115450/">https://discuss.pytorch.org/t/affine-grid-and-grid-sample-why-is-my-image-not-rotated-in-the-right-direction/115450/</a></figcaption>
-</p>
-
-Finally, the `dice_score` needs explanation.
-
-{%highlight python%}
-def dice_score(x1, x2):
-    inter = torch.sum(x1 * x2, dim=[2, 3, 4])
-    union = torch.sum(x1 + x2, dim=[2, 3, 4])
-    return (2. * inter / union).mean()
-{%endhighlight%}
-
-The **Dice score** is doing what the distance between the corresponding red and blue fish points was doing earlier in the post: It **measures image alignment**.
-The Dice score is **0 for non-overlapping** and **1 for perfectly overlapping image areas**.
-PyTorch always tries to minimize loss functions therefore we use `-dice_score` and hope that it approaches -1. 😉
-
-<p align="center">
-<img src="https://miro.medium.com/v2/resize:fit:1400/1*tSqwQ9tvLmeO9raDqg3i-w.png" width="500"/>
-<figcaption>Taken from <a href="https://medium.com/mlearning-ai/understanding-evaluation-metrics-in-medical-image-segmentation-d289a373a3f">https://medium.com/mlearning-ai/understanding-evaluation-metrics-in-medical-image-segmentation-d289a373a3f</a></figcaption>
 </p>
 
 ## Application to brain images
@@ -294,8 +279,8 @@ moving_mask = (moving > 0).float()
 static_mask = (static > 0).float()
 # Reduce resolution to 32³
 size = (32, 32, 32)
-moving_mask = F.interpolate(moving_mask[None, None], size)[0, 0]
-static_mask = F.interpolate(static_mask[None, None], size)[0, 0]
+moving_mask = F.interpolate(moving[None, None], size)[0, 0]
+static_mask = F.interpolate(static[None, None], size)[0, 0]
 # Do affine registration
 optimal_affine = affine_registration(moving_mask, static_mask)
 
