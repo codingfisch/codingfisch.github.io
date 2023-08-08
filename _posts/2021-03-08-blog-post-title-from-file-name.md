@@ -304,7 +304,7 @@ moved.orthoview()
 
 ![moved](https://github.com/codingfisch/codingfisch.github.io/assets/55840648/63e96cec-c192-411c-82f5-09866902c3c9)
 
-Nice, it worked fine!
+The moved_nii is accurately aligned to the crosshairs so it worked fine! 🎉
 
 Optionally, we can convert the tensor back to a Nifti which can be **saved**: 
 {%highlight python%}
