@@ -13,9 +13,9 @@ If you are a in a hurry and know what Affine Registration/PyTorch is, simply ski
 - PyTorch is surprisingly effective for image registration due to its
     - utility functions F.affine_grid, F.affine_grid (+ F.interpolate)
     - autograd engine which calculates multidimensional derivatives (saving code lines and headaches)
-    - GPU support which enables faster compute
+    - GPU support which enables faster compute (on NVIDIA GPU or >2020 Apple Silicon)
 - The core of image registration can be coded in 12 lines
-- A <100 lines image registration library installable via `pip install torchreg` supports
+- A ~100 lines image registration library installable via `pip install torchreg` supports
     - freezing translation, rotation, zoom and/or shear (to do e.g. Rigid Registration)
     - multiresolution approaches
     - using custom similarity functions/losses and optimizers
@@ -320,7 +320,7 @@ You did not really think I would go through the trouble of explaining you all th
 
 I have added a few tweaks and tricks which are missing to make it a "mature" registration tool and ended up with **<100 lines** I named **torchreg**.
 
-torchreg supports 2D and 3D images and can be installed via pip
+**torchreg supports 2D and 3D images** and can be installed via pip
 
 {%highlight bash%}
 pip install torchreg
@@ -332,25 +332,19 @@ from torchreg import AffineRegistration
 {%endhighlight%}
 which supports
 
-- **choosing** if you want to do **2D or 3D** registration via 
-
-{%highlight python%}
-reg = AffineRegistration(is_3d=True)
-{%endhighlight%}
-
 - using a **multiresolution approach** to save compute (per default it runs with 1/4 and then 1/2 of the original resolution for 500 + 100 iterations)
 
 {%highlight python%}
 reg = AffineRegistration(scales=(4, 2), iterations=(500, 100))
 {%endhighlight%}
 
-- **choosing** which **operations** (translation, rotation, zoom, shear) to change during optimization
+- **choosing** which **operations** (translation, rotation, zoom, shear) to optimize
 
 {%highlight python%}
 reg = AffineRegistration(with_zoom=False, with_shear=False)
 {%endhighlight%}
 
-- start optimization with **custom initial parameters**
+- optimization with **custom initial parameters**
 
 {%highlight python%}
 reg = AffineRegistration(zoom=torch.Tensor([1.5, 2., 1.]))
