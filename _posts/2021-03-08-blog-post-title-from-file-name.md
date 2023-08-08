@@ -170,7 +170,7 @@ Now that we know what Affine Registration is and what PyTorch offers us, lets lo
 import torch
 import torch.nn.functional as F
 
-def affine_registration(moving, static, n_iterations=200, learning_rate=1e-3):
+def affine_registration(moving, static, n_iterations=500, learning_rate=1e-1):
     affine = torch.eye(4)[None, :3]
     affine = torch.nn.Parameter(affine)
     optimizer = torch.optim.SGD([affine], learning_rate)
@@ -178,7 +178,7 @@ def affine_registration(moving, static, n_iterations=200, learning_rate=1e-3):
         optimizer.zero_grad()
         affine_grid = F.affine_grid(affine, [1, 3, *static.shape])
         moved = F.grid_sample(moving[None, None], affine_grid)
-        loss = ((static - moved[0, 0) ** 2).mean()
+        loss = ((static - moved[0, 0]) ** 2).mean()
         loss.backward()
         optimizer.step()
     return affine.detach()
@@ -274,22 +274,22 @@ static = torch.from_numpy(static).float()
 
 And then we can apply our beautiful `affine_registration` function.
 {%highlight python%}
-# Get masks (1 if voxel is brain tissue else 0)
-moving_mask = (moving > 0).float()
-static_mask = (static > 0).float()
 # Reduce resolution to 32³
 size = (32, 32, 32)
-moving_mask = F.interpolate(moving[None, None], size)[0, 0]
-static_mask = F.interpolate(static[None, None], size)[0, 0]
+moving_small = F.interpolate(moving[None, None], size)[0, 0]
+static_small = F.interpolate(static[None, None], size)[0, 0]
+# Normalize image intensity (minimum is 0 so dividing by maximum is sufficient)
+moving_small = moving_small / moving_small.max()
+static_small = static_small / static_small.max()
 # Do affine registration
-optimal_affine = affine_registration(moving_mask, static_mask)
+optimal_affine = affine_registration(moving_small, static_small)
 
 {%endhighlight%}
 
 Oops, I snuck two more operations in there:
 
-1. Using `(_ > 0).float()` to create brainmasks, since the Dice score is build to deal with masks
-2. Reducing the masks resolution because `affine_registration` will be much faster this way
+1. Reducing the masks resolution because `affine_registration` will be much faster this way
+2. Using `_ / _.max()` to normalize image intensities to the value range 0.0-1.0
 
 Finally, we use the `optimal_affine` to align the `moving` tensor
 {%highlight python%}
@@ -320,7 +320,7 @@ You did not really think I would go through the trouble of explaining you all th
 
 I have added a few tweaks and tricks which are missing to make it a "mature" registration tool and ended up with **<100 lines** I named **torchreg**.
 
-torchreg can be installed via pip
+torchreg supports 2D and 3D images and can be installed via pip
 
 {%highlight bash%}
 pip install torchreg
@@ -332,16 +332,22 @@ from torchreg import AffineRegistration
 {%endhighlight%}
 which supports
 
-- **choosing** which **operations** (translation, rotation, zoom, shear) to change during optimization
+- **choosing** if you want to do **2D or 3D** registration via 
 
 {%highlight python%}
-reg = AffineRegistration(with_zoom=False, with_shear=False)
+reg = AffineRegistration(is_3d=True)
 {%endhighlight%}
 
 - using a **multiresolution approach** to save compute (per default it runs with 1/4 and then 1/2 of the original resolution for 500 + 100 iterations)
 
 {%highlight python%}
 reg = AffineRegistration(scales=(4, 2), iterations=(500, 100))
+{%endhighlight%}
+
+- **choosing** which **operations** (translation, rotation, zoom, shear) to change during optimization
+
+{%highlight python%}
+reg = AffineRegistration(with_zoom=False, with_shear=False)
 {%endhighlight%}
 
 - start optimization with **custom initial parameters**
@@ -353,10 +359,13 @@ reg = AffineRegistration(zoom=torch.Tensor([1.5, 2., 1.]))
 - and using **custom similarity functions** and **optimizers**
 
 {%highlight python%}
-def mse(moving, static):
-    return ((moving - static)**2).mean()
+def dice_loss(x1, x2):
+    dim = [2, 3, 4] if len(x2.shape) == 5 else [2, 3]
+    inter = torch.sum(x1 * x2, dim=dim)
+    union = torch.sum(x1 + x2, dim=dim)
+    return 1 - (2. * inter / union).mean()
 
-reg = AffineRegistration(similairity_function=mse, optimizer=torch.optim.Adam)
+reg = AffineRegistration(similairity_function=dice_loss, optimizer=torch.optim.Adam)
 {%endhighlight%}
 
 After initializing, you can **run the Affine Registration** with
