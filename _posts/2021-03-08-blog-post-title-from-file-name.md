@@ -100,7 +100,7 @@ Using this starting point we will now march, mumbling the programmers **"Make it
 Thankfully, PyTorch works fast and is sufficiently pretty such that we will reach the end of the rainbow quite quickly!
 
 ## Why PyTorch?
-PyTorch is primarily used for deep learning and it can be thought of as a **NumPy with GPU support** since:
+PyTorch is primarily used for deep learning and it can be thought of as a **NumPy with GPU support (speedup!)** since:
 - It uses **NumPy semantics**
 
 {%highlight python%}
