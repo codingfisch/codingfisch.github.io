@@ -372,12 +372,6 @@ def dice_loss(x1, x2):
 reg = AffineRegistration(dissimilairity_function=dice_loss, optimizer=torch.optim.Adam)
 {%endhighlight%}
 
-After initializing, you can **run the Affine Registration** with
-{%highlight python%}
-moved = reg(moving, static)
-{%endhighlight%}
-and it will return the registered moving image!
-
 With 
 {%highlight python%}
 moved = reg(moving.cuda(), static.cuda())
