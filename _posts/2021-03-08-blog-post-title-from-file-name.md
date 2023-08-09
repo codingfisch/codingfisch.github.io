@@ -17,7 +17,7 @@ If you are a in a hurry and know what Affine Registration/PyTorch is, simply ski
 - The core of image registration can be coded in 12 lines
 - My [~100 lines image registration library](https://github.com/codingfisch/torchreg) installable via `pip install torchreg` supports
     - 2D and 3D images
-    - GPU computation
+    - GPU computation (speedup!)
     - freezing translation, rotation, zoom and/or shear (to do e.g. Rigid Registration)
     - multiresolution approaches
     - using custom similarity functions/losses and optimizers
