@@ -399,16 +399,18 @@ Hopefully they look something like this:
 - I finally really understand this "Affine Registration" my toolboxes uses
 - PyTorch is some neural network stuff. I didn't fully understand that part but it enables really fast image registration!
 - The next time I'll align Niftis **I'll use torchreg**!
+- **I'll give the [repo](https://github.com/codingfisch/torchreg) a star!**
 
 2. You are a **deep learning person**
 - I finally kinda understand what PyTorch does in the background of the training loops I always use...
 - ...but I will play with the Colab notebook and plot/print affine, moved and gradients in the loop to get a feeling for what is happening in the background!
 - The word gradient does not scare me anymore!
 - If I ever want to apply Affine/Rigid Registration **I'll use torchreg**!
+- **I'll give the [repo](https://github.com/codingfisch/torchreg) a star!**
 
 3. You are a **nerd**
 - Interesting read, nice comprehensive + short code!
-- **I'll give the repo a star** because this post entertained me!
+- **I'll give the [repo](https://github.com/codingfisch/torchreg) a star** because this post entertained me!
 
 4. You are a **normie**
 - What is this weird guy talking about?!
