@@ -21,7 +21,7 @@ If you are a in a hurry and know what Affine Registration/PyTorch is, simply ski
     - freezing translation, rotation, zoom and/or shear (to do e.g. Rigid Registration)
     - multiresolution approaches
     - using custom similarity functions/losses and optimizers
-    - co- and multimodal registration
+    - parallel, multimodal and coregistration
 
 ## What is Affine Registration?
 
