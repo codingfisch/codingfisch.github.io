@@ -320,7 +320,7 @@ Welcome to the advertising bit of this post!
 
 You did not really think I would go through the trouble of explaining you all this stuff, just to share my excitement about short code, did ya?!
 
-I have added a few tweaks and tricks which are missing to make it a "mature" registration tool and ended up with **~100 lines** I named **torchreg**.
+I have added a few tweaks and tricks which are missing to make it a "mature" registration tool and ended up with **~100 lines** I named [**torchreg**](https://github.com/codingfisch/torchreg).
 
 **torchreg supports 2D and 3D images** and can be installed via pip
 
