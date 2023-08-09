@@ -206,7 +206,7 @@ Let's run through it, line by line:
 The code deals with (3D) **images instead of points** now, which is why **lines 7-9 need some extra explanation**:
 
 First, the **MSE** in line 7 is doing what the distance between the corresponding red and blue fish points was doing earlier in the post: It **measures image alignment**.
-Smaller mean squared errors indicate better alignment so we hope that the loss approaches 0.
+Smaller MSEs indicate better alignment so we hope that `loss` approaches 0.
 
 Second, an **image** can be thought of as a **grid of pixels/points**. 
 Applying an affine transformation to each of these pixels - i.e. multiplying its coordinates with the affine matrix, happening in `F.affine_grid` - works just fine BUT:
