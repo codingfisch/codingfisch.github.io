@@ -206,7 +206,7 @@ Let's run through it, line by line:
 The code deals with (3D) **images instead of points** now, which is why **lines 7-9 need some extra explanation**:
 
 First, the **MSE** in line 7 is doing what the distance between the corresponding red and blue fish points was doing earlier in the post: It **measures image alignment**.
-Smaller MSEs indicate better alignment so we hope that `loss` approaches 0.
+Higher MSEs indicate worse alignment - also called **dissimilarity** - between moving and static image.
 
 Second, an **image** can be thought of as a **grid of pixels/points**. 
 Applying an affine transformation to each of these pixels - i.e. multiplying its coordinates with the affine matrix, happening in `F.affine_grid` - works just fine BUT:
@@ -352,7 +352,7 @@ reg = AffineRegistration(with_zoom=False, with_shear=False)
 reg = AffineRegistration(zoom=torch.Tensor([1.5, 2., 1.]))
 {%endhighlight%}
 
-- and using **custom similarity functions** and **optimizers**
+- and using **custom dissimilarity functions** and **optimizers**
 
 {%highlight python%}
 def dice_loss(x1, x2):
@@ -361,7 +361,7 @@ def dice_loss(x1, x2):
     union = torch.sum(x1 + x2, dim=dim)
     return 1 - (2. * inter / union).mean()
 
-reg = AffineRegistration(similairity_function=dice_loss, optimizer=torch.optim.Adam)
+reg = AffineRegistration(dissimilairity_function=dice_loss, optimizer=torch.optim.Adam)
 {%endhighlight%}
 
 After initializing, you can **run the Affine Registration** with
