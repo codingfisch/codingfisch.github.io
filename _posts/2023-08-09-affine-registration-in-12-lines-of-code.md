@@ -331,6 +331,14 @@ pip install torchreg
 and provides you with the `AffineRegistration` class
 {%highlight python%}
 from torchreg import AffineRegistration
+
+# Load images as torch Tensors
+moving = ...
+static = ...
+# Intialize AffineRegistration
+reg = AffineRegistration(is_3d=True)
+# Run it!
+moved = reg(moving, static)
 {%endhighlight%}
 which supports
 
