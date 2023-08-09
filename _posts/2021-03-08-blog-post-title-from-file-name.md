@@ -366,13 +366,13 @@ reg = AffineRegistration(similairity_function=dice_loss, optimizer=torch.optim.A
 
 After initializing, you can **run the Affine Registration** with
 {%highlight python%}
-moved_mask = reg(moving_mask, static_mask)
+moved = reg(moving, static)
 {%endhighlight%}
 and it will return the registered moving image!
 
 With 
 {%highlight python%}
-moved_mask = reg(moving_mask.cuda(), static_mask.cuda())
+moved = reg(moving.cuda(), static.cuda())
 {%endhighlight%}
 you can **leverage your GPU** (if you have a NVIDIA GPU) and speed up the registration.
 
@@ -413,5 +413,5 @@ Hopefully they look something like this:
 4. You are a **normie**
 - What is this weird guy talking about?!
 
-One last closing remark: The code I showed you relied on brainmasks. 
+One last closing remark: Affine registration in neuroimaging can be made really robust using brainmasks. 
 If you are interested in how to get **really accurate masks**, take a look into my **next blog post** (online soon)!
