@@ -11,15 +11,17 @@ If you are a in a hurry and know what Affine Registration/PyTorch is, simply ski
 **TL;DR**:
 
 - PyTorch is surprisingly effective for image registration due to its
-    - utility functions F.affine_grid, F.grid_sample and F.interpolate
     - autograd engine which calculates multidimensional derivatives (saving code lines and headaches)
+    - utility functions F.affine_grid, F.grid_sample and F.interpolate
     - GPU support which enables faster compute (on NVIDIA GPU or >2020 Apple Silicon)
 - The core of image registration can be coded in 12 lines
-- A ~100 lines image registration library installable via `pip install torchreg` supports
+- My ~100 lines image registration library installable via `pip install torchreg` supports
+    - 2D and 3D images
+    - GPU computation
     - freezing translation, rotation, zoom and/or shear (to do e.g. Rigid Registration)
     - multiresolution approaches
     - using custom similarity functions/losses and optimizers
-    - GPU computation
+    - co- and multimodal registration
 
 ## What is Affine Registration?
 
