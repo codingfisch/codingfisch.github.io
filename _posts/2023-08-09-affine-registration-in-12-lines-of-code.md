@@ -222,7 +222,7 @@ The standard approach to deal with this is **interpolation** which is what `F.gr
 ## Application to brain images
 
 After this theoretical fugazi you might think "Talk is cheap, just show me a demo!" so here we go.
-Using the linked Colab notebook you can run the whole demo by simply clicking "Runtime" -> "Run all"!
+Using [this Colab notebook](https://colab.research.google.com/drive/1lgAAoO-b46X8LzmuesG4WDhiXA0A1vPu?usp=sharing) you can run the whole demo by simply clicking "Runtime" -> "Run all"!
 
 Let's download two brain images
 
